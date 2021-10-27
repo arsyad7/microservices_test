@@ -10,6 +10,9 @@ router.get('/', (req, res) => {
 });
 
 router.post('/login', UserController.login);
+router.post('/register', UserController.register);
+router.put('/users/:id', UserController.editUser);
+router.delete('/users/:id', UserController.deleteUser);
 
 router.use(errorHandler);
 
