@@ -51,3 +51,25 @@ export function deleteProduct(id) {
             .catch(err => console.log(err))
     }
 }
+
+export function editProduct(payload, id, history) {
+    return function (dispatch, getState) {
+        const { productReducer } = getState()
+
+        axios.put(`http://localhost:4000/products/${id}`, payload, {
+            headers: { key }
+        })
+            .then(({ data }) => {
+                const newProducts = productReducer.products.map( e => {
+                    if(e.id === +id) {
+                        return data
+                    } else {
+                        return e
+                    }
+                })
+                dispatch(setProduct(newProducts))
+                history.goBack()
+            })
+            .catch(err => console.log(err))
+    }
+}

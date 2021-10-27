@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
+import { setCreate, setDelete, setUpdate } from '../store/actions/actionUser';
 // import { setUserEmail, setUserId } from '../store/actions/actionUser';
 
 export default function Navbar() {
@@ -25,8 +26,9 @@ export default function Navbar() {
                         }
                         <li className="nav-item">
                             <Link onClick={() => {
-                                // dispatch(setUserId(null))
-                                // dispatch(setUserEmail(null))
+                                dispatch(setCreate(false))
+                                dispatch(setUpdate(false))
+                                dispatch(setDelete(false))
                                 localStorage.clear()
                             }} className="nav-link" to="/login">Sign Out</Link>
                         </li>

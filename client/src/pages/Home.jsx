@@ -43,7 +43,7 @@ export default function Home() {
                                 {
                                     products.map((product, i) => {
                                         return (
-                                            <tr>
+                                            <tr key={product.id}>
                                                 <th scope="row">{i + 1}</th>
                                                 <td><img src={product.imgUrl} alt="" width="100" height="100" /></td>
                                                 <td>{product.name}</td>

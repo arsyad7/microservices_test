@@ -1,27 +1,49 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 import Navbar from '../components/Navbar'
+import { useDispatch } from 'react-redux';
+import { useHistory  } from 'react-router-dom';
+import { editProduct } from '../store/actions/actionProduct';
 
 export default function EditProduct() {
+    const dispatch = useDispatch();
+    const history = useHistory();
     const { id } = useParams();
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    const [imgUrl, setImgUrl] = useState("")
-    const [stock, setStock] = useState("")
-    const [type, setType] = useState("")
-    console.log(id);
-    const { products } = useSelector(state => state.productReducer)
+    
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [imgUrl, setImgUrl] = useState("");
+    const [stock, setStock] = useState("");
+    const [type, setType] = useState("");
 
     useEffect(() => {
-        const product = products.filter(e => e.id === +id)
-        console.log(product[0]);
-        setName(products[0].name)
-        setDescription(products[0].description)
-        setImgUrl(products[0].imgUrl)
-        setStock(products[0].stock)
-        setType(products[0].type)
-    }, [])
+        axios.get(`http://localhost:4000/products/${id}`, {
+            headers: { key: 'kunci' }
+        })
+            .then(({ data }) => {
+                setName(data[0].name)
+                setDescription(data[0].description)
+                setImgUrl(data[0].imgUrl)
+                setStock(data[0].stock)
+                setType(data[0].type)
+                })
+            .catch(err => console.log(err))
+    }, [id])
+
+    function handleEdit(e) {
+        e.preventDefault()
+        dispatch(editProduct({name, description, imgUrl, stock, type}, id, history))
+        reset()
+    }
+
+    function reset() {
+        setName('')
+        setDescription('')
+        setImgUrl('')
+        setStock('')
+        setType('')
+    }
 
     return (
         <>
@@ -32,7 +54,7 @@ export default function EditProduct() {
                     <div className="col-4 mt-3 card">
                         <div className="p-3">
                             <h1><b>Edit Product</b></h1><hr />
-                            <form>
+                            <form onSubmit={handleEdit}>
                                 <div className="form-group mt-4">
                                     <label htmlFor="exampleInputEmail1"><b>Name</b></label>
                                     <input value={name} onChange={(e) => setName(e.target.value)} type="text" className="form-control" placeholder="Enter Name" />

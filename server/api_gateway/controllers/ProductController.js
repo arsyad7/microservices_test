@@ -119,6 +119,44 @@ class ProductController {
             }
         }
     }
+
+    static async detail(req, res) {
+        try {
+            const { key } = req.headers;
+            const { id } = req.params;
+
+            if(!key) {
+                throw {
+                    code: 403,
+                    message: 'Access Denied'
+                }
+            }
+
+            const productsCache = await redis.get("products")
+
+            const product = JSON.parse(productsCache).filter(e => e.id === +id )
+            res.status(200).json(product)
+            // if (productsCache) {
+            //     res.status(200).json(JSON.parse(productsCache))
+            // } else {
+            //     const products = await axios.get('http://localhost:4002/products', {
+            //         headers: { key }
+            //     })
+                
+            //     await redis.set('products', JSON.stringify(products.data))
+            //     res.status(200).json(products.data)
+            // }
+        } catch (err) {
+            if (err.code) {
+                res.status(err.code).json({
+                    code: err.code,
+                    message: err.message
+                })
+            } else {
+                res.status(err.response.data.code).json(err.response.data)
+            }
+        }
+    }
 }
 
 module.exports = ProductController;
