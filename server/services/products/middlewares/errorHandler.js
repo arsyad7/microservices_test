@@ -5,9 +5,7 @@ function errorHandler(err, req, res, next) {
     switch (err.name) {
         case "SequelizeValidationError":
             code = 400;
-            message = err.message.map((el) => {
-                return el;
-            });
+            message = err.errors[0].message
             res.status(code).json({code, message})
             break;
         case "authentication":

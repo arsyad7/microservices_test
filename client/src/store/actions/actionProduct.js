@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_PRODUCTS } from "../keys";
+import { SET_ERRORS, SET_PRODUCTS } from "../keys";
 
 const key = 'kunci';
 
@@ -7,6 +7,13 @@ export function setProduct(data) {
     return {
         type: SET_PRODUCTS,
         payload: data
+    }
+}
+
+export function setErrors(err) {
+    return {
+        type: SET_ERRORS,
+        payload: err
     }
 }
 
@@ -18,7 +25,7 @@ export function getProducts() {
             .then(({ data }) => {
                 dispatch(setProduct(data))
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err.response.data))
     }
 }
 
@@ -33,7 +40,10 @@ export function createProduct(payload, history) {
                 dispatch(setProduct(productReducer.products.concat(data)))
                 history.push('/')
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err.response.data)
+                dispatch(setErrors(err.response.data))
+            })
     }
 }
 
@@ -49,7 +59,7 @@ export function deleteProduct(id, history) {
                 dispatch(setProduct(newProducts))
                 history.go('/')
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err.response.data))
     }
 }
 
@@ -71,6 +81,6 @@ export function editProduct(payload, id, history) {
                 dispatch(setProduct(newProducts))
                 history.goBack()
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err.response.data))
     }
 }

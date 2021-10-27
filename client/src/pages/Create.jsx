@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import Navbar from '../components/Navbar'
 import { createProduct } from '../store/actions/actionProduct'
@@ -12,6 +12,8 @@ export default function Create() {
     const [imgUrl, setImgUrl] = useState("")
     const [stock, setStock] = useState("")
     const [type, setType] = useState("")
+
+    const errorReducer = useSelector(state => state.errorReducer)
 
     function handleCreate(e) {
         e.preventDefault()
@@ -28,6 +30,9 @@ export default function Create() {
                         <div className="p-3">
                             <h1><b>Create Product</b></h1><hr />
                             <form onSubmit={handleCreate}>
+                                {
+                                    errorReducer ? <p style={{ color: 'red' }}>{errorReducer?.errors?.message}</p> : null
+                                }
                                 <div className="form-group mt-4">
                                     <label htmlFor="exampleInputEmail1"><b>Name</b></label>
                                     <input value={name} onChange={(e) => setName(e.target.value)} type="text" className="form-control" placeholder="Enter Name" />

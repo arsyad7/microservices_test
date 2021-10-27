@@ -3,12 +3,14 @@ import productReducer from './productReducer';
 import userReducer from './userReducer';
 import accessReducer from './accessReducer';
 import loadingReducer from './loadingReducer';
+import errorReducer from './errorReducer';
 
 const reducer = combineReducers({
     productReducer,
     userReducer,
     accessReducer,
-    loadingReducer
+    loadingReducer,
+    errorReducer
 })
 
 export default reducer
