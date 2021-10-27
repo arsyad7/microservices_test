@@ -37,7 +37,7 @@ export function createProduct(payload, history) {
     }
 }
 
-export function deleteProduct(id) {
+export function deleteProduct(id, history) {
     return function (dispatch, getState) {
         const { productReducer } = getState()
 
@@ -47,6 +47,7 @@ export function deleteProduct(id) {
             .then(() => {
                 const newProducts = productReducer.products.filter( e => e.id !== +id )
                 dispatch(setProduct(newProducts))
+                history.go('/')
             })
             .catch(err => console.log(err))
     }

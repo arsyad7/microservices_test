@@ -136,16 +136,6 @@ class ProductController {
 
             const product = JSON.parse(productsCache).filter(e => e.id === +id )
             res.status(200).json(product)
-            // if (productsCache) {
-            //     res.status(200).json(JSON.parse(productsCache))
-            // } else {
-            //     const products = await axios.get('http://localhost:4002/products', {
-            //         headers: { key }
-            //     })
-                
-            //     await redis.set('products', JSON.stringify(products.data))
-            //     res.status(200).json(products.data)
-            // }
         } catch (err) {
             if (err.code) {
                 res.status(err.code).json({

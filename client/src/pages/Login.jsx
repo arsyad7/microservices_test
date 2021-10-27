@@ -18,10 +18,13 @@ export default function Login() {
                 accesses.forEach(e => {
                     if (e === 'create') {
                         dispatch(setCreate(true))
+                        localStorage.setItem("create", true)
                     } else if (e === 'update') {
                         dispatch(setUpdate(true))
+                        localStorage.setItem("update", true)
                     } else if (e === 'delete') {
                         dispatch(setDelete(true))
+                        localStorage.setItem("delete", true)
                     }
                 });
 

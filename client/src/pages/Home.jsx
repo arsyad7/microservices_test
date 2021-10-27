@@ -14,16 +14,15 @@ export default function Home() {
     useEffect(() => {
         dispatch(getProducts())
     }, [dispatch])
-    
+
     function handleDelete(id) {
-        dispatch(deleteProduct(id))
+        dispatch(deleteProduct(id, history))
     }
 
     return (
         <>
             <Navbar />
 
-            <h1>INI HOME</h1>
             <div className={"container mb-5"}>
                 { 
                     (
@@ -52,11 +51,11 @@ export default function Home() {
                                                 <td>{product.type}</td>
                                                 <td>
                                                     {
-                                                        updateAccess ? <button onClick={() => history.push(`edit/${product.id}`)} type="button" className="btn btn-warning btn-block mr-5">Edit</button> : null
+                                                        updateAccess || localStorage.getItem('update') ? <button onClick={() => history.push(`edit/${product.id}`)} type="button" className="btn btn-warning btn-block mr-5">Edit</button> : null
                                                     }
                                                     <p></p>
                                                     {
-                                                        deleteAccess ? <button type="button" onClick={() => handleDelete(product.id)} className="btn btn-danger btn-block">Delete</button> : null
+                                                        deleteAccess || localStorage.getItem('delete') ? <button type="button" onClick={() => handleDelete(product.id)} className="btn btn-danger btn-block">Delete</button> : null
                                                     }
                                                 </td>
                                             </tr>

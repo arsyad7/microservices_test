@@ -20,7 +20,7 @@ export default function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ms-auto">
                         {
-                            createAccess ? <li className="nav-item">
+                            createAccess || localStorage.getItem('create') ? <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" to="/create">Create Product</Link>
                                 </li> : null
                         }
