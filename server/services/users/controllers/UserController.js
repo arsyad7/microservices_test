@@ -33,6 +33,46 @@ class UserController {
             next(err)
         }
     }
+
+    static async register(req, res, next) {
+        try {
+            const { username, email, password, AccessId } = req.body;
+
+            const result = await User.create({ username, email, password, AccessId })
+            res.status(201).json(result)
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async editUser(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { username, email, password, AccessId } = req.body;
+
+            const result = await User.update({ username, email, password, AccessId }, {
+                where: { id },
+                returning: true
+            })
+
+            res.status(200).json(result[1][0])
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async deleteUser(req, res, next) {
+        try {
+            const { id } = req.params;
+
+            await User.destroy({ where: { id }})
+            res.status(200).json({
+                message: 'Delete user success'
+            })
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 module.exports = UserController
